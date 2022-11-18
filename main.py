@@ -179,45 +179,35 @@ async def usernames(ctx, arg):
     await ctx.reply(f"**Names:** {', '.join(allnames)} and the current name: {crntName}! **Amount of names: __{len(allnames)} + 1 (Current username).__**")
 
 @client.command(name='discord', brief='get info about a discord profile by id or by tagging them')
-async def discordInfo(ctx, arg):
-    guild = client.get_guild(1026769243867455528)
-    discordId = ''.join(filter(str.isdigit, arg))
-    member = await ctx.guild.fetch_member(discordId)
-    if member != None:
-        avatarLink = member.display_avatar
-    
-        date_format = "%Y, %b %d, %a @ %I:%M %p"
-
-        user = await client.fetch_user(discordId)
-        if user != None:
-            embed=discord.Embed(title="Discord info", url=f"https://www.famility.xyz", description="User info:", color = discord.Colour.random())
-            embed.set_author(name="Bot maker: ren !#8079")
-            embed.set_thumbnail(url=avatarLink)
-            embed.add_field(name="Creation date:", value=f"**{user.created_at.strftime(date_format)}**", inline=True)
-            embed.add_field(name="Server join date:", value=f"**{member.joined_at.strftime(date_format)}**", inline=True)
-            embed.add_field(name="Discord Id:", value=f"**{discordId}**", inline=True)
-            embed.add_field(name="Name:", value=f"**{user.name}#{str(user.discriminator)}**", inline=True)
-            embed.set_footer(text="ren sex dick cheese bot")
-
-            await ctx.reply(embed=embed, mention_author = False)
-         
-@discordInfo.error
-async def dInfo(ctx, error):
-    if isinstance(error, commands.MissingRequiredArgument):
-       # guild = client.get_guild(1026769243867455528)
-
-        avatarLink = ctx.author.display_avatar 
-        date_format = "%Y, %b %d, %a @ %I:%M %p"
-
-        embed=discord.Embed(title="Discord info", url=f"https://www.famility.xyz", description="User info:", color = discord.Colour.random())
+async def discordInfo(ctx, *, member: discord.Member = None):
+   # guild = client.get_guild(1026769243867455528)
+    date_format = "%Y, %b %d, %a @ %I:%M %p"
+    color = discord.Colour.random()
+    if member == None:
+        print("got self")
+        discordId = ctx.author.id
+        avatarLink = ctx.author.display_avatar
+        embed=discord.Embed(title="Discord info", url=f"https://www.famility.xyz", description="User info:", color = color)
         embed.set_author(name="Bot maker: ren !#8079")
         embed.set_thumbnail(url=avatarLink)
         embed.add_field(name="Creation date:", value=f"**{ctx.author.created_at.strftime(date_format)}**", inline=True)
         embed.add_field(name="Server join date:", value=f"**{ctx.author.joined_at.strftime(date_format)}**", inline=True)
-        embed.add_field(name="Discord Id:", value=f"**{ctx.author.id}**", inline=True)
-        embed.add_field(name="Name:", value=f"**{ctx.author.name}#{str(ctx.author.discriminator)}**", inline=True)
+        embed.add_field(name="Discord Id:", value=f"**{discordId}**", inline=True)
+        embed.add_field(name="Name:", value=f"**{ctx.author}**", inline=True)
         embed.set_footer(text="ren sex dick cheese bot")
-
+        await ctx.reply(embed=embed, mention_author = False)
+    else:
+        discordId = member.id
+        avatarLink = member.display_avatar
+        embed=discord.Embed(title="Discord info", url=f"https://www.famility.xyz", description="User info:", color = color)
+        embed.set_author(name="Bot maker: ren !#8079")
+        embed.set_thumbnail(url=avatarLink)
+        embed.add_field(name="Creation date:", value=f"**{member.created_at.strftime(date_format)}**", inline=True)
+        embed.add_field(name="Server join date:", value=f"**{member.joined_at.strftime(date_format)}**", inline=True)
+        embed.add_field(name="Discord Id:", value=f"**{discordId}**", inline=True)
+        embed.add_field(name="Name:", value=f"**{member}**", inline=True)
+        embed.set_footer(text="ren sex dick cheese bot")
+        print("got someone else")
         await ctx.reply(embed=embed, mention_author = False)
 
 @client.command(name='roblox', brief='get info about a roblox profile by id')
@@ -318,7 +308,7 @@ async def s(ctx, arg, arg2):
         await ctx.reply(f'{arg2} °F is {str(fthermo)} °C')
 
     else:
-        await ctx.reply("Make sure you use f or fahrenheit for example.")
+        await ctx.reply("Make sure you use f/fahrenheit or c/celsius for example.")
 
 
 @client.command(name='userid', brief='get roblox players id with username')
