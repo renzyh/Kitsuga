@@ -1,8 +1,1 @@
-{
-    "token" : "", //discord boot token
-    "oauth" : "", //twitter oauth
-    "oauthsecret" : "", //twitter oauth secret
-    "accesstoken" : "-PQYoLiJ2rCnIVkVscKL90V6sQpCFez", //twitter access token
-    "accesssecret" : "", //twitter access secret
-    "prefix" : "+" //discord prefix
-}
+
